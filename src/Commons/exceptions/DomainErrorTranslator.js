@@ -7,6 +7,7 @@ const DomainErrorTranslator = {
 };
 
 DomainErrorTranslator._directories = {
+  // Register User
   'REGISTER_USER.NOT_CONTAIN_NEEDED_PROPERTY': new InvariantError(
     'tidak dapat membuat user baru karena properti yang dibutuhkan tidak ada'
   ),
@@ -19,6 +20,8 @@ DomainErrorTranslator._directories = {
   'REGISTER_USER.USERNAME_CONTAIN_RESTRICTED_CHARACTER': new InvariantError(
     'tidak dapat membuat user baru karena username mengandung karakter terlarang'
   ),
+
+  // User Login & Authentication
   'USER_LOGIN.NOT_CONTAIN_NEEDED_PROPERTY': new InvariantError(
     'harus mengirimkan username dan password'
   ),
@@ -34,18 +37,32 @@ DomainErrorTranslator._directories = {
   'DELETE_AUTHENTICATION_USE_CASE.PAYLOAD_NOT_MEET_DATA_TYPE_SPECIFICATION':
     new InvariantError('refresh token harus string'),
 
+  // Add Thread
   'ADD_THREAD.NOT_CONTAIN_NEEDED_PROPERTY': new InvariantError(
     'tidak dapat membuat thread baru karena properti yang dibutuhkan tidak lengkap'
   ),
   'ADD_THREAD.NOT_MEET_DATA_TYPE_SPECIFICATION': new InvariantError(
     'tidak dapat membuat thread baru karena tipe data properti tidak sesuai'
   ),
-
   'ADDED_THREAD.NOT_CONTAIN_NEEDED_PROPERTY': new InvariantError(
     'thread yang ditambahkan tidak mengandung properti yang dibutuhkan'
   ),
   'ADDED_THREAD.NOT_MEET_DATA_TYPE_SPECIFICATION': new InvariantError(
     'thread yang ditambahkan memiliki tipe data properti yang tidak sesuai'
+  ),
+
+  // Add comment
+  'ADD_COMMENT.NOT_CONTAIN_NEEDED_PROPERTY': new InvariantError(
+    'tidak dapat membuat komentar baru karena properti yang dibutuhkan tidak ada'
+  ),
+  'ADD_COMMENT.NOT_MEET_DATA_TYPE_SPECIFICATION': new InvariantError(
+    'tidak dapat membuat komentar baru karena tipe data tidak sesuai'
+  ),
+  'ADDED_COMMENT.NOT_CONTAIN_NEEDED_PROPERTY': new InvariantError(
+    'AddedComment tidak dapat dibuat karena properti yang dibutuhkan tidak ada'
+  ),
+  'ADDED_COMMENT.NOT_MEET_DATA_TYPE_SPECIFICATION': new InvariantError(
+    'AddedComment tidak dapat dibuat karena tipe data tidak sesuai'
   ),
 };
 
