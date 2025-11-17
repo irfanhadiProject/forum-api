@@ -64,6 +64,14 @@ DomainErrorTranslator._directories = {
   'ADDED_COMMENT.NOT_MEET_DATA_TYPE_SPECIFICATION': new InvariantError(
     'AddedComment tidak dapat dibuat karena tipe data tidak sesuai'
   ),
+
+  // Delete comment
+  'DELETE_COMMENT.NOT_CONTAIN_NEEDED_PROPERTY': new InvariantError(
+    'tidak dapat menghapus komentar karena properti yang dibutuhkan tidak lengkap'
+  ),
+  'DELETE_COMMENT.NOT_MEET_DATA_TYPE_SPECIFICATION': new InvariantError(
+    'tidak dapat menghapus komentar karena tipe data properti tidak sesuai'
+  ),
 };
 
 module.exports = DomainErrorTranslator;

@@ -5,13 +5,21 @@ const pool = require('../../database/postgres/pool');
 const CommentRepositoryPostgres = require('../CommentRepositoryPostgres');
 const AddedComment = require('../../../Domains/comments/entities/AddedComment');
 const InvariantError = require('../../../Commons/exceptions/InvariantError');
+const NotFoundError = require('../../../Commons/exceptions/NotFoundError');
+const AuthorizationError = require('../../../Commons/exceptions/AuthorizationError');
 
 describe('CommentRepositoryPostgres', () => {
   const userId = 'user-123';
   const threadId = 'thread-123';
+  const commentId = 'comment-komen';
+  const ownerIdForDeleteTest = 'user-delete';
 
   beforeAll(async () => {
     await UsersTableTestHelper.addUser({ id: userId, username: 'dicoding' });
+    await UsersTableTestHelper.addUser({
+      id: ownerIdForDeleteTest,
+      username: 'deleter',
+    });
     await ThreadsTableTestHelper.addThread({ id: threadId, owner: userId });
   });
 
@@ -85,6 +93,85 @@ describe('CommentRepositoryPostgres', () => {
       await expect(
         commentRepository.addComment(newComment)
       ).rejects.toThrowError(InvariantError);
+    });
+  });
+
+  describe('verifyCommentOwner', () => {
+    it('should throw NotFoundError when comment does not exist', async () => {
+      // Arrange
+      const commentRepositoryPostgres = new CommentRepositoryPostgres(pool, {});
+      const nonExistentCommentId = 'comment-999';
+
+      // Action & Assert
+      await expect(
+        commentRepositoryPostgres.verifyCommentOwner(
+          nonExistentCommentId,
+          userId
+        )
+      ).rejects.toThrowError(NotFoundError);
+    });
+
+    it('should throw AuthorizationError when user is not the owner', async () => {
+      // Arrange
+      await CommentsTableTestHelper.addComment({
+        id: commentId,
+        owner: ownerIdForDeleteTest,
+      });
+      const commentRepositoryPostgres = new CommentRepositoryPostgres(pool, {});
+
+      // Action & Assert
+      // userId mencoba verifikasi komentar milik ownerIdForDeleteTest
+      await expect(
+        commentRepositoryPostgres.verifyCommentOwner(commentId, userId)
+      ).rejects.toThrowError(AuthorizationError);
+    });
+
+    it('should not throw any error when user is the owner', async () => {
+      // Arrange
+      await CommentsTableTestHelper.addComment({
+        id: commentId,
+        owner: ownerIdForDeleteTest,
+      });
+      const commentRepositoryPostgres = new CommentRepositoryPostgres(pool, {});
+
+      // Action & Assert
+      await expect(
+        commentRepositoryPostgres.verifyCommentOwner(
+          commentId,
+          ownerIdForDeleteTest
+        )
+      ).resolves.not.toThrow();
+    });
+  });
+
+  describe('deleteCommentById', () => {
+    it('should soft delete the comment and set is_deleted to true', async () => {
+      // Arrange
+      await CommentsTableTestHelper.addComment({
+        id: commentId,
+        owner: ownerIdForDeleteTest,
+        threadId,
+      });
+      const commentRepositoryPostgres = new CommentRepositoryPostgres(pool, {});
+
+      // Action
+      await commentRepositoryPostgres.deleteCommentById(commentId);
+
+      // Assert: Cek status is_deleted di database
+      const comments = await CommentsTableTestHelper.findCommentById(commentId);
+      expect(comments).toHaveLength(1);
+      expect(comments[0].is_deleted).toBe(true);
+    });
+
+    it('should throw NotFoundError when comment id is not found', async () => {
+      // Arrange
+      const commentRepositoryPostgres = new CommentRepositoryPostgres(pool, {});
+      const nonExistentCommentId = 'comment-999';
+
+      // Action & Assert
+      await expect(
+        commentRepositoryPostgres.deleteCommentById(nonExistentCommentId)
+      ).rejects.toThrowError(NotFoundError);
     });
   });
 });

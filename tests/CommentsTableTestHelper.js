@@ -19,6 +19,7 @@ const CommentsTableTestHelper = {
     };
 
     await pool.query(query);
+    return id;
   },
 
   async findCommentById(id) {
