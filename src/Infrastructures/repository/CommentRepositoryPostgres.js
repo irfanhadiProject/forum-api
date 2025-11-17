@@ -14,15 +14,15 @@ class CommentRepositoryPostgres extends CommentRepository {
   async addComment(newComment) {
     const { content, threadId, owner } = newComment;
     const id = `comment-${this._idGenerator()}`;
-    const created_at = new Date().toISOString();
+    const date = new Date().toISOString();
 
     const query = {
       text: `
-      INSERT INTO comments (id, thread_id, owner, content, created_at)
+      INSERT INTO comments (id, thread_id, owner, content, date)
       VALUES ($1, $2, $3, $4, $5)
       RETURNING id, content, owner
       `,
-      values: [id, threadId, owner, content, created_at],
+      values: [id, threadId, owner, content, date],
     };
 
     const result = await this._pool.query(query);
@@ -64,6 +64,22 @@ class CommentRepositoryPostgres extends CommentRepository {
     if (!result.rowCount) {
       throw new NotFoundError('Komentar gagal dihapus. ID tidak ditemukan');
     }
+  }
+
+  async getCommentsByThreadId(threadId) {
+    const query = {
+      text: `
+        SELECT comments.id, users.username, comments.date, comments.content, comments.is_deleted
+        FROM comments
+        LEFT JOIN users ON users.id = comments.owner
+        WHERE comments.thread_id = $1
+        ORDER BY comments.date ASC`,
+      values: [threadId],
+    };
+
+    const result = await this._pool.query(query);
+
+    return result.rows;
   }
 }
 

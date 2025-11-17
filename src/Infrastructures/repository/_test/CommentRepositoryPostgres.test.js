@@ -174,4 +174,81 @@ describe('CommentRepositoryPostgres', () => {
       ).rejects.toThrowError(NotFoundError);
     });
   });
+
+  describe('getCommentsByThreadId', () => {
+    it('should return all comments ordered by date ascending', async () => {
+      // Arrange
+      const commentRepositoryPostgres = new CommentRepositoryPostgres(pool, {});
+
+      const date1 = new Date('2023-01-01T10:00:00.000Z');
+      const date2 = new Date('2023-01-01T11:00:00.000Z');
+
+      await CommentsTableTestHelper.addComment({
+        id: 'comment-1',
+        threadId,
+        owner: userId,
+        content: 'komentar pertama',
+        date: date2, // lebih baru
+      });
+
+      await CommentsTableTestHelper.addComment({
+        id: 'comment-2',
+        threadId,
+        owner: userId,
+        content: 'komentar kedua',
+        date: date1, // lebih lama
+      });
+
+      // Action
+      const comments = await commentRepositoryPostgres.getCommentsByThreadId(
+        threadId
+      );
+
+      // Assert
+      expect(comments).toHaveLength(2);
+
+      // urutan ascending: date paling kecil dulu
+      expect(comments[0].id).toBe('comment-2');
+      expect(comments[1].id).toBe('comment-1');
+    });
+
+    it('should return comment fields correctly including is_deleted', async () => {
+      // Arrange
+      const commentRepositoryPostgres = new CommentRepositoryPostgres(pool, {});
+
+      await CommentsTableTestHelper.addComment({
+        id: 'comment-deleted',
+        threadId,
+        owner: userId,
+        content: 'ini dihapus',
+        isDeleted: true,
+      });
+
+      // Action
+      const comments = await commentRepositoryPostgres.getCommentsByThreadId(
+        threadId
+      );
+
+      // Assert
+      expect(comments).toHaveLength(1);
+      expect(comments[0]).toHaveProperty('id', 'comment-deleted');
+      expect(comments[0]).toHaveProperty('username', 'dicoding');
+      expect(comments[0]).toHaveProperty('date');
+      expect(comments[0]).toHaveProperty('content', 'ini dihapus');
+      expect(comments[0]).toHaveProperty('is_deleted', true);
+    });
+
+    it('should return empty array if no comments exist', async () => {
+      // Arrange
+      const commentRepositoryPostgres = new CommentRepositoryPostgres(pool, {});
+
+      // Action
+      const result = await commentRepositoryPostgres.getCommentsByThreadId(
+        'thread-empty'
+      );
+
+      // Assert
+      expect(result).toStrictEqual([]);
+    });
+  });
 });

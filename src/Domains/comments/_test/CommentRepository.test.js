@@ -36,4 +36,14 @@ describe('CommentRepository interface', () => {
       commentRepository.deleteCommentById('comment-123')
     ).rejects.toThrowError('COMMENT_REPOSITORY.METHOD_NOT_IMPLEMENTED');
   });
+
+  it('should throw error when invoke unimplemented getCommentsByThreadId', async () => {
+    // Arrange
+    const commentRepository = new CommentRepository();
+
+    // Action & Assert
+    await expect(
+      commentRepository.getCommentsByThreadId('thread-123')
+    ).rejects.toThrowError('COMMENT_REPOSITORY.METHOD_NOT_IMPLEMENTED');
+  });
 });

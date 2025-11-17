@@ -21,4 +21,12 @@ describe('ThreadRepository interface', () => {
       threadRepository.verifyThreadExists('thread-123')
     ).rejects.toThrowError('THREAD_REPOSITORY.METHOD_NOT_IMPLEMENTED');
   });
+
+  it('should throw error when getThreadById method is invoked', async () => {
+    const threadRepository = new ThreadRepository();
+
+    await expect(
+      threadRepository.getThreadById('thread-123')
+    ).rejects.toThrowError('THREAD_REPOSITORY.METHOD_NOT_IMPLEMENTED');
+  });
 });

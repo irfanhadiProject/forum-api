@@ -183,4 +183,58 @@ describe('/threads endpoint', () => {
       expect(response.statusCode).toEqual(401);
     });
   });
+
+  describe('when GET /threads/{threadId}', () => {
+    it('should response 200 and return thread detail', async () => {
+      // Arrange
+      const server = await createServer(container);
+
+      // Add user
+      const userId = await UsersTableTestHelper.addUser({
+        id: 'user-123',
+        username: 'dicoding',
+      });
+
+      // Add thread
+      const threadId = await ThreadsTableTestHelper.addThread({
+        id: 'thread-123',
+        title: 'sebuah thread',
+        body: 'sebuah body thread',
+        owner: userId,
+      });
+
+      // Action
+      const response = await server.inject({
+        method: 'GET',
+        url: `/threads/${threadId}`,
+      });
+
+      // Assert
+      const responseJson = JSON.parse(response.payload);
+
+      expect(response.statusCode).toEqual(200);
+      expect(responseJson.status).toEqual('success');
+      expect(responseJson.data.thread.id).toEqual(threadId);
+      expect(responseJson.data.thread.title).toBeDefined();
+      expect(responseJson.data.thread.body).toBeDefined();
+      expect(responseJson.data.thread.username).toBeDefined();
+      expect(responseJson.data.thread.comments).toBeDefined();
+      expect(Array.isArray(responseJson.data.thread.comments)).toBe(true);
+    });
+
+    it('should response 404 when thread not found', async () => {
+      const server = await createServer(container);
+
+      const response = await server.inject({
+        method: 'GET',
+        url: '/threads/thread-not-found',
+      });
+
+      const responseJson = JSON.parse(response.payload);
+
+      expect(response.statusCode).toEqual(404);
+      expect(responseJson.status).toEqual('fail');
+      expect(responseJson.message).toBeDefined();
+    });
+  });
 });

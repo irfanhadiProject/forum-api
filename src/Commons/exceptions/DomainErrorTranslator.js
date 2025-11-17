@@ -72,6 +72,22 @@ DomainErrorTranslator._directories = {
   'DELETE_COMMENT.NOT_MEET_DATA_TYPE_SPECIFICATION': new InvariantError(
     'tidak dapat menghapus komentar karena tipe data properti tidak sesuai'
   ),
+
+  // Detail Thread
+  'DETAIL_THREAD.NOT_CONTAIN_NEEDED_PROPERTY': new InvariantError(
+    'thread tidak dapat ditampilkan karena properti yang dibutuhkan tidak ada'
+  ),
+  'DETAIL_THREAD.NOT_MEET_DATA_TYPE_SPECIFICATION': new InvariantError(
+    'thread tidak dapat ditampilkan karena tipe data properti tidak sesuai'
+  ),
+
+  // Detail Comment
+  'DETAIL_COMMENT.NOT_CONTAIN_NEEDED_PROPERTY': new InvariantError(
+    'komentar tidak dapat ditampilkan karena properti yang dibutuhkan tidak ada'
+  ),
+  'DETAIL_COMMENT.NOT_MEET_DATA_TYPE_SPECIFICATION': new InvariantError(
+    'komentar tidak dapat ditampilkan karena tipe data properti tidak sesuai'
+  ),
 };
 
 module.exports = DomainErrorTranslator;
