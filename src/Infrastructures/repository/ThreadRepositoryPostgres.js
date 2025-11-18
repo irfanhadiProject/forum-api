@@ -42,7 +42,7 @@ class ThreadRepositoryPostgres extends ThreadRepository {
   }
 
   async getThreadById(threadId) {
-    const threadQuery = {
+    const query = {
       text: `
         SELECT t.id, t.title, t.body, t.date, u.username
         FROM threads t
@@ -52,41 +52,20 @@ class ThreadRepositoryPostgres extends ThreadRepository {
       values: [threadId],
     };
 
-    const threadResult = await this._pool.query(threadQuery);
+    const result = await this._pool.query(query);
 
-    if (!threadResult.rowCount) {
+    if (!result.rowCount) {
       throw new NotFoundError('Thread tidak ditemukan');
     }
 
-    const thread = threadResult.rows[0];
-
-    const commentsQuery = {
-      text: `
-        SELECT c.id, c.content, c.date, c.is_deleted, u.username
-        FROM comments c
-        JOIN users u ON u.id = c.owner
-        WHERE c.thread_id = $1
-        ORDER BY c.date ASC
-      `,
-      values: [threadId],
-    };
-
-    const commentsResult = await this._pool.query(commentsQuery);
-
-    const comments = commentsResult.rows.map((row) => ({
-      id: row.id,
-      username: row.username,
-      date: row.date,
-      content: row.is_deleted ? '**komentar telah dihapus**' : row.content,
-    }));
+    const row = result.rows[0];
 
     return {
-      id: thread.id,
-      title: thread.title,
-      body: thread.body,
-      date: thread.date,
-      username: thread.username,
-      comments,
+      id: row.id,
+      title: row.title,
+      body: row.body,
+      date: row.date,
+      username: row.username,
     };
   }
 }

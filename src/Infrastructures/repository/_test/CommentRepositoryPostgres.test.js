@@ -231,11 +231,10 @@ describe('CommentRepositoryPostgres', () => {
 
       // Assert
       expect(comments).toHaveLength(1);
-      expect(comments[0]).toHaveProperty('id', 'comment-deleted');
-      expect(comments[0]).toHaveProperty('username', 'dicoding');
-      expect(comments[0]).toHaveProperty('date');
-      expect(comments[0]).toHaveProperty('content', 'ini dihapus');
-      expect(comments[0]).toHaveProperty('is_deleted', true);
+      expect(comments[0].id).toBe('comment-deleted');
+      expect(comments[0].username).toBe('dicoding');
+      expect(comments[0].date).toBeDefined();
+      expect(comments[0].content).toBe('**komentar telah dihapus**');
     });
 
     it('should return empty array if no comments exist', async () => {

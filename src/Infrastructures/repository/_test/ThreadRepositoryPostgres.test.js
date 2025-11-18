@@ -94,7 +94,7 @@ describe('ThreadRepositoryPostgres', () => {
       );
     });
 
-    it('should return thread detail with empty comments when no comments exist', async () => {
+    it('should return thread detail correctly', async () => {
       // Arrange
       await UsersTableTestHelper.addUser({ id: 'user-123', username: 'john' });
       await ThreadsTableTestHelper.addThread({
@@ -115,73 +115,7 @@ describe('ThreadRepositoryPostgres', () => {
       expect(thread.title).toBe('Thread Title');
       expect(thread.body).toBe('Thread Body');
       expect(thread.username).toBe('john');
-      expect(thread.comments).toHaveLength(0);
-    });
-
-    it('should return thread detail with comments correctly', async () => {
-      // Arrange
-      await UsersTableTestHelper.addUser({ id: 'user-123', username: 'john' });
-      await UsersTableTestHelper.addUser({ id: 'user-456', username: 'doe' });
-
-      await ThreadsTableTestHelper.addThread({
-        id: 'thread-123',
-        title: 'Thread Title',
-        body: 'Thread Body',
-        owner: 'user-123',
-        date: '2023-01-01T10:00:00.000Z',
-      });
-
-      await CommentsTableTestHelper.addComment({
-        id: 'comment-123',
-        content: 'komentar pertama',
-        threadId: 'thread-123',
-        owner: 'user-456',
-        date: '2023-01-02T10:00:00.000Z',
-      });
-
-      const repository = new ThreadRepositoryPostgres(pool, {});
-
-      // Action
-      const thread = await repository.getThreadById('thread-123');
-
-      // Assert
-      expect(thread.comments).toHaveLength(1);
-      expect(thread.comments[0].id).toBe('comment-123');
-      expect(thread.comments[0].username).toBe('doe');
-      expect(thread.comments[0].content).toBe('komentar pertama');
-      expect(thread.comments[0].date).toBeDefined();
-    });
-
-    it('should return "**komentar telah dihapus**" for deleted comments', async () => {
-      // Arrange
-      await UsersTableTestHelper.addUser({ id: 'user-123', username: 'john' });
-      await UsersTableTestHelper.addUser({ id: 'user-456', username: 'doe' });
-
-      await ThreadsTableTestHelper.addThread({
-        id: 'thread-123',
-        title: 'Thread Title',
-        body: 'Thread Body',
-        owner: 'user-123',
-        date: '2023-01-01T10:00:00.000Z',
-      });
-
-      await CommentsTableTestHelper.addComment({
-        id: 'comment-123',
-        content: 'komentar pertama',
-        threadId: 'thread-123',
-        owner: 'user-456',
-        date: '2023-01-02T10:00:00.000Z',
-        isDeleted: true,
-      });
-
-      const repository = new ThreadRepositoryPostgres(pool, {});
-
-      // Action
-      const thread = await repository.getThreadById('thread-123');
-
-      // Assert
-      expect(thread.comments).toHaveLength(1);
-      expect(thread.comments[0].content).toBe('**komentar telah dihapus**');
+      expect(thread.date).toBe('2023-01-01T10:00:00.000Z');
     });
   });
 });
