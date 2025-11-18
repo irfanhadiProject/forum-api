@@ -151,5 +151,37 @@ describe('ThreadRepositoryPostgres', () => {
       expect(thread.comments[0].content).toBe('komentar pertama');
       expect(thread.comments[0].date).toBeDefined();
     });
+
+    it('should return "**komentar telah dihapus**" for deleted comments', async () => {
+      // Arrange
+      await UsersTableTestHelper.addUser({ id: 'user-123', username: 'john' });
+      await UsersTableTestHelper.addUser({ id: 'user-456', username: 'doe' });
+
+      await ThreadsTableTestHelper.addThread({
+        id: 'thread-123',
+        title: 'Thread Title',
+        body: 'Thread Body',
+        owner: 'user-123',
+        date: '2023-01-01T10:00:00.000Z',
+      });
+
+      await CommentsTableTestHelper.addComment({
+        id: 'comment-123',
+        content: 'komentar pertama',
+        threadId: 'thread-123',
+        owner: 'user-456',
+        date: '2023-01-02T10:00:00.000Z',
+        isDeleted: true,
+      });
+
+      const repository = new ThreadRepositoryPostgres(pool, {});
+
+      // Action
+      const thread = await repository.getThreadById('thread-123');
+
+      // Assert
+      expect(thread.comments).toHaveLength(1);
+      expect(thread.comments[0].content).toBe('**komentar telah dihapus**');
+    });
   });
 });
