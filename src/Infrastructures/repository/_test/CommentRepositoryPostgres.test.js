@@ -45,7 +45,7 @@ describe('CommentRepositoryPostgres', () => {
       const fakeIdGenerator = () => '123';
       const commentRepository = new CommentRepositoryPostgres(
         pool,
-        fakeIdGenerator
+        fakeIdGenerator,
       );
 
       // Action
@@ -53,7 +53,7 @@ describe('CommentRepositoryPostgres', () => {
 
       // Asserts
       const comments = await CommentsTableTestHelper.findCommentById(
-        'comment-123'
+        'comment-123',
       );
       expect(comments).toHaveLength(1);
       expect(comments[0].content).toEqual(newComment.content);
@@ -67,7 +67,7 @@ describe('CommentRepositoryPostgres', () => {
           id: 'comment-123',
           content: newComment.content,
           owner: newComment.owner,
-        })
+        }),
       );
     });
 
@@ -75,7 +75,7 @@ describe('CommentRepositoryPostgres', () => {
       // Arrange
       const newComment = {
         content: 'sebuah komentar di thread',
-        threadId: threadId,
+        threadId,
         owner: userId,
       };
 
@@ -86,12 +86,12 @@ describe('CommentRepositoryPostgres', () => {
       };
       const commentRepository = new CommentRepositoryPostgres(
         mockPool,
-        fakeIdGenerator
+        fakeIdGenerator,
       );
 
       // Action & Assert
       await expect(
-        commentRepository.addComment(newComment)
+        commentRepository.addComment(newComment),
       ).rejects.toThrowError(InvariantError);
     });
   });
@@ -106,8 +106,8 @@ describe('CommentRepositoryPostgres', () => {
       await expect(
         commentRepositoryPostgres.verifyCommentOwner(
           nonExistentCommentId,
-          userId
-        )
+          userId,
+        ),
       ).rejects.toThrowError(NotFoundError);
     });
 
@@ -122,7 +122,7 @@ describe('CommentRepositoryPostgres', () => {
       // Action & Assert
       // userId mencoba verifikasi komentar milik ownerIdForDeleteTest
       await expect(
-        commentRepositoryPostgres.verifyCommentOwner(commentId, userId)
+        commentRepositoryPostgres.verifyCommentOwner(commentId, userId),
       ).rejects.toThrowError(AuthorizationError);
     });
 
@@ -138,8 +138,8 @@ describe('CommentRepositoryPostgres', () => {
       await expect(
         commentRepositoryPostgres.verifyCommentOwner(
           commentId,
-          ownerIdForDeleteTest
-        )
+          ownerIdForDeleteTest,
+        ),
       ).resolves.not.toThrow();
     });
   });
@@ -170,7 +170,7 @@ describe('CommentRepositoryPostgres', () => {
 
       // Action & Assert
       await expect(
-        commentRepositoryPostgres.deleteCommentById(nonExistentCommentId)
+        commentRepositoryPostgres.deleteCommentById(nonExistentCommentId),
       ).rejects.toThrowError(NotFoundError);
     });
   });
@@ -201,7 +201,7 @@ describe('CommentRepositoryPostgres', () => {
 
       // Action
       const comments = await commentRepositoryPostgres.getCommentsByThreadId(
-        threadId
+        threadId,
       );
 
       // Assert
@@ -226,7 +226,7 @@ describe('CommentRepositoryPostgres', () => {
 
       // Action
       const comments = await commentRepositoryPostgres.getCommentsByThreadId(
-        threadId
+        threadId,
       );
 
       // Assert
@@ -243,7 +243,7 @@ describe('CommentRepositoryPostgres', () => {
 
       // Action
       const result = await commentRepositoryPostgres.getCommentsByThreadId(
-        'thread-empty'
+        'thread-empty',
       );
 
       // Assert

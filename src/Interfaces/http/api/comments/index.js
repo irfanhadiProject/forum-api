@@ -1,4 +1,4 @@
-const routes = require('../comments/routes');
+const routes = require('./routes');
 const CommentsHandler = require('./handler');
 
 module.exports = {

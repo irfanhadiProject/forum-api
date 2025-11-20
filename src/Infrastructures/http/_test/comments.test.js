@@ -89,13 +89,13 @@ describe('/threads/{threadId}/comments endpoint', () => {
       expect(responseJson.status).toEqual('success');
       expect(responseJson.data.addedComment).toBeDefined();
 
-      const addedComment = responseJson.data.addedComment;
+      const { addedComment } = responseJson.data;
       expect(addedComment.content).toEqual(requestPayload.content);
       expect(addedComment.id).toBeDefined();
       expect(addedComment.owner).toBeDefined();
 
       const comments = await CommentsTableTestHelper.findCommentById(
-        addedComment.id
+        addedComment.id,
       );
       expect(comments).toHaveLength(1);
     });
@@ -243,7 +243,7 @@ describe('/threads/{threadId}/comments endpoint', () => {
       });
 
       const ownerId = await UsersTableTestHelper.findUserIdByUsername(
-        userPayloadOwner.username
+        userPayloadOwner.username,
       );
 
       const loginResponse = await server.inject({
@@ -290,7 +290,7 @@ describe('/threads/{threadId}/comments endpoint', () => {
       });
 
       const ownerId = await UsersTableTestHelper.findUserIdByUsername(
-        userPayloadOwner.username
+        userPayloadOwner.username,
       );
 
       await server.inject({
@@ -390,7 +390,7 @@ describe('/threads/{threadId}/comments endpoint', () => {
       } = JSON.parse(loginResponse.payload);
 
       const ownerId = await UsersTableTestHelper.findUserIdByUsername(
-        userPayloadOwner.username
+        userPayloadOwner.username,
       );
       const commentId = await CommentsTableTestHelper.addComment({
         threadId: validThreadId,

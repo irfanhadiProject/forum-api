@@ -34,7 +34,7 @@ describe('AddThreadUseCase', () => {
     // Assert
     expect(mockThreadRepo.addThread).toHaveBeenCalledWith(
       new AddThread(payload),
-      owner
+      owner,
     );
 
     expect(result).toStrictEqual(expectedAdded);

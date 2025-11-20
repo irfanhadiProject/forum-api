@@ -35,16 +35,16 @@ describe('DeleteCommentUseCase', () => {
 
     // Assert
     expect(mockThreadRepository.verifyThreadExists).toHaveBeenCalledWith(
-      useCasePayload.threadId
+      useCasePayload.threadId,
     );
 
     expect(mockCommentRepository.verifyCommentOwner).toHaveBeenCalledWith(
       useCasePayload.commentId,
-      useCasePayload.owner
+      useCasePayload.owner,
     );
 
     expect(mockCommentRepository.deleteCommentById).toHaveBeenCalledWith(
-      useCasePayload.commentId
+      useCasePayload.commentId,
     );
   });
 
@@ -60,7 +60,7 @@ describe('DeleteCommentUseCase', () => {
 
     // Action & Assert
     await expect(
-      deleteCommentUseCase.execute(useCasePayload)
+      deleteCommentUseCase.execute(useCasePayload),
     ).rejects.toThrowError('DELETE_COMMENT.NOT_MEET_DATA_TYPE_SPECIFICATION');
   });
 });

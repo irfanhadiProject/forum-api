@@ -1,30 +1,18 @@
-const js = require('@eslint/js');
-const globals = require('globals');
-const { defineConfig } = require('eslint/config');
-
-module.exports = defineConfig([
-  {
-    files: ['**/*.{js,mjs,cjs}'],
-    plugins: { js },
-    extends: ['js/recommended'],
-    languageOptions: {
-      globals: {
-        ...globals.node,
-      },
-    },
+module.exports = {
+  env: {
+    node: true,
+    jest: true,
+    es2021: true,
   },
-  {
-    files: ['**/*.js'],
-    languageOptions: {
-      sourceType: 'commonjs',
-    },
+  extends: ['airbnb-base'],
+  parserOptions: {
+    ecmaVersion: 12,
+    sourceType: 'module',
   },
-  {
-    files: ['**/*.test.js'],
-    languageOptions: {
-      globals: {
-        ...globals.jest,
-      },
-    },
+  rules: {
+    'no-console': 'off',
+    'class-methods-use-this': 'off',
+    'import/no-extraneous-dependencies': 'off',
+    'no-underscore-dangle': 'off',
   },
-]);
+};

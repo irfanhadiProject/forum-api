@@ -1,5 +1,5 @@
 const pool = require('../../database/postgres/pool');
-const createServer = require('../../../Infrastructures/http/createServer');
+const createServer = require('../createServer');
 const UsersTableTestHelper = require('../../../../tests/UsersTableTestHelper');
 const ThreadsTableTestHelper = require('../../../../tests/ThreadsTableTestHelper');
 const container = require('../../container');
@@ -167,7 +167,7 @@ describe('/threads endpoint', () => {
 
       const invalidPayload = { username: 'testuser' };
       const invalidToken = await AuthenticationTestHelper.getAccessToken(
-        invalidPayload
+        invalidPayload,
       );
       // Action
 

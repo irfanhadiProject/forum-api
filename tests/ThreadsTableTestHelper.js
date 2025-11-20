@@ -14,7 +14,7 @@ const ThreadsTableTestHelper = {
       values: [id, title, body, owner, date],
     };
 
-    result = await pool.query(query);
+    const result = await pool.query(query);
     return result.rows[0].id;
   },
 

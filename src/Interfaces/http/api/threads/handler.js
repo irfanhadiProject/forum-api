@@ -30,7 +30,7 @@ class ThreadsHandler {
     const useCasePayload = { threadId };
 
     const getThreadDetailUseCase = this._container.getInstance(
-      GetThreadDetailUseCase.name
+      GetThreadDetailUseCase.name,
     );
 
     const threadDetail = await getThreadDetailUseCase.execute(useCasePayload);

@@ -13,7 +13,7 @@ describe('CommentRepository interface', () => {
 
     // Action & Assert
     await expect(repository.addComment(newCommentPayload)).rejects.toThrowError(
-      'COMMENT_REPOSITORY.METHOD_NOT_IMPLEMENTED'
+      'COMMENT_REPOSITORY.METHOD_NOT_IMPLEMENTED',
     );
   });
 
@@ -23,7 +23,7 @@ describe('CommentRepository interface', () => {
 
     // Action & Assert
     await expect(
-      commentRepository.verifyCommentOwner('comment-123', 'user-123')
+      commentRepository.verifyCommentOwner('comment-123', 'user-123'),
     ).rejects.toThrowError('COMMENT_REPOSITORY.METHOD_NOT_IMPLEMENTED');
   });
 
@@ -33,7 +33,7 @@ describe('CommentRepository interface', () => {
 
     // Action & Assert
     await expect(
-      commentRepository.deleteCommentById('comment-123')
+      commentRepository.deleteCommentById('comment-123'),
     ).rejects.toThrowError('COMMENT_REPOSITORY.METHOD_NOT_IMPLEMENTED');
   });
 
@@ -43,7 +43,7 @@ describe('CommentRepository interface', () => {
 
     // Action & Assert
     await expect(
-      commentRepository.getCommentsByThreadId('thread-123')
+      commentRepository.getCommentsByThreadId('thread-123'),
     ).rejects.toThrowError('COMMENT_REPOSITORY.METHOD_NOT_IMPLEMENTED');
   });
 });

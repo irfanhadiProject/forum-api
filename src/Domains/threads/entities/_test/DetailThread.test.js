@@ -11,7 +11,7 @@ describe('DetailThread entity', () => {
 
     // Action & Assert
     expect(() => new DetailThread(payload)).toThrowError(
-      'DETAIL_THREAD.NOT_CONTAIN_NEEDED_PROPERTY'
+      'DETAIL_THREAD.NOT_CONTAIN_NEEDED_PROPERTY',
     );
   });
 
@@ -28,7 +28,7 @@ describe('DetailThread entity', () => {
 
     // Action & Assert
     expect(() => new DetailThread(payload)).toThrowError(
-      'DETAIL_THREAD.NOT_MEET_DATA_TYPE_SPECIFICATION'
+      'DETAIL_THREAD.NOT_MEET_DATA_TYPE_SPECIFICATION',
     );
   });
 

@@ -8,7 +8,7 @@ describe('AddedThread entity', () => {
     };
 
     expect(() => new AddedThread(payload)).toThrow(
-      'ADDED_THREAD.NOT_CONTAIN_NEEDED_PROPERTY'
+      'ADDED_THREAD.NOT_CONTAIN_NEEDED_PROPERTY',
     );
   });
 
@@ -20,7 +20,7 @@ describe('AddedThread entity', () => {
     };
 
     expect(() => new AddedThread(payload)).toThrow(
-      'ADDED_THREAD.NOT_MEET_DATA_TYPE_SPECIFICATION'
+      'ADDED_THREAD.NOT_MEET_DATA_TYPE_SPECIFICATION',
     );
   });
 

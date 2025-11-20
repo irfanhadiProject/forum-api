@@ -7,7 +7,7 @@ describe('ThreadRepository interface', () => {
 
     // Action & Assert
     await expect(
-      threadRepository.addThread({}, 'user-123')
+      threadRepository.addThread({}, 'user-123'),
     ).rejects.toThrowError('THREAD_REPOSITORY.METHOD_NOT_IMPLEMENTED');
   });
 
@@ -18,7 +18,7 @@ describe('ThreadRepository interface', () => {
     // Action & Assert
     // Memverifikasi kontrak untuk metode baru
     await expect(
-      threadRepository.verifyThreadExists('thread-123')
+      threadRepository.verifyThreadExists('thread-123'),
     ).rejects.toThrowError('THREAD_REPOSITORY.METHOD_NOT_IMPLEMENTED');
   });
 
@@ -26,7 +26,7 @@ describe('ThreadRepository interface', () => {
     const threadRepository = new ThreadRepository();
 
     await expect(
-      threadRepository.getThreadById('thread-123')
+      threadRepository.getThreadById('thread-123'),
     ).rejects.toThrowError('THREAD_REPOSITORY.METHOD_NOT_IMPLEMENTED');
   });
 });

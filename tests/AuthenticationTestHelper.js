@@ -1,6 +1,6 @@
 /* istanbul ignore file */
-const JwtTokenManager = require('../src/Infrastructures/security/JwtTokenManager');
 const Jwt = require('@hapi/jwt');
+const JwtTokenManager = require('../src/Infrastructures/security/JwtTokenManager');
 
 const AuthenticationTestHelper = {
   async getAccessToken(payload) {

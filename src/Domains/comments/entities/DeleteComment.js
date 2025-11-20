@@ -15,9 +15,9 @@ class DeleteComment {
     }
 
     if (
-      typeof threadId !== 'string' ||
-      typeof commentId !== 'string' ||
-      typeof owner !== 'string'
+      typeof threadId !== 'string'
+      || typeof commentId !== 'string'
+      || typeof owner !== 'string'
     ) {
       throw new Error('DELETE_COMMENT.NOT_MEET_DATA_TYPE_SPECIFICATION');
     }

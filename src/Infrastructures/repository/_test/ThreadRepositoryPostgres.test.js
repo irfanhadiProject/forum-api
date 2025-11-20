@@ -50,7 +50,7 @@ describe('ThreadRepositoryPostgres', () => {
           id: 'thread-123',
           title: 'judul thread',
           owner,
-        })
+        }),
       );
     });
   });
@@ -63,7 +63,7 @@ describe('ThreadRepositoryPostgres', () => {
 
       // Action & Assert
       await expect(
-        repository.verifyThreadExists(nonExistentThreadId)
+        repository.verifyThreadExists(nonExistentThreadId),
       ).rejects.toThrowError(NotFoundError);
     });
 
@@ -81,7 +81,7 @@ describe('ThreadRepositoryPostgres', () => {
 
       // Action & Assert
       await expect(
-        repository.verifyThreadExists(threadId)
+        repository.verifyThreadExists(threadId),
       ).resolves.not.toThrowError();
     });
   });
@@ -90,7 +90,7 @@ describe('ThreadRepositoryPostgres', () => {
     it('should throw NotFoundError when thread does not exist', async () => {
       const repository = new ThreadRepositoryPostgres(pool, {});
       await expect(repository.getThreadById('thread-xxx')).rejects.toThrowError(
-        NotFoundError
+        NotFoundError,
       );
     });
 
