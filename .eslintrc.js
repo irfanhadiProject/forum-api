@@ -14,5 +14,7 @@ module.exports = {
     'class-methods-use-this': 'off',
     'import/no-extraneous-dependencies': 'off',
     'no-underscore-dangle': 'off',
+    'linebreak-style': 'off',
+    'comma-dangle': 'off',
   },
 };
