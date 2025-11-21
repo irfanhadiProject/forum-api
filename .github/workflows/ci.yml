@@ -36,10 +36,11 @@ jobs:
       - name: Install dependencies, migrate test DB, and run tests
         run: |
           npm install
-          npm run migrate:test
+          npm run migrate:test up
           npm test
         env:
           CI: true
+          DB_CONFIG_FILE: ./config/database/test.json
 
           # HTTP Server
           HOST: localhost
