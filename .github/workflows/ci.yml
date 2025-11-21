@@ -36,7 +36,7 @@ jobs:
       - name: Install dependencies, migrate test DB, and run tests
         run: |
           npm install
-          npm run migrate:test
+          npm run migrate:test up
           npm test
         env:
           CI: true
