@@ -1,0 +1,8 @@
+{
+  "driver": "pg",
+  "host": "localhost",
+  "port": 5432,
+  "database": "forumapi_test",
+  "user": "postgres",
+  "password": "mysecretpassword"
+}
