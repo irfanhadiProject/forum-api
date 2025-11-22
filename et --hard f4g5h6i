@@ -1,0 +1,14 @@
+[33m6b22b3f[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mmain[m[33m, [m[1;31morigin/main[m[33m)[m Fix CI migration fail
+[33m9dc97c0[m Change runner script migrate:test
+[33mffd3bee[m Change runner script for migrate:test
+[33meffe909[m Add config database
+[33m074e54a[m Change migrate:test runner script
+[33mb69fcae[m Fix code style with ESLint
+[33m57a0a5c[m Add ci action
+[33ma247159[m Revisi GetThreadDetailUseCase
+[33m6ad1d46[m Kriteria 5 dan 6 Final
+[33me81bb86[m Kriteria 4
+[33mb98ada6[m Kriteria 3
+[33m36774d5[m Kriteria 2
+[33m7fb91d0[m Kriteria 1
+[33mdee8c5f[m First commit
